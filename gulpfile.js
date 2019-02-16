@@ -8,13 +8,13 @@ const webpackConfig = require("./webpack.config.js");
 
 gulp.task("compile", function () {
   return gulp.src([
-    ".src/js/app.js",
+    "./src/js/app.js",
   ])
-    .pipe(plumber({ errorHandler: notify.onError("<%= error.message %>") }))
-    .pipe(webpackStream(webpackConfig), null, function (err, stats) {
+    .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
+    .pipe(webpackStream(webpackConfig), null, function(err, stats) {
       if (stats.compilation.errors.length > 0) {
         notify({
-          title: "webpack errpr",
+          title: "webpack error",
           message: stats.compilation.errors[0].error
         });
       }
@@ -34,7 +34,7 @@ gulp.task("watch", function () {
   watch(["./src/js/**/**.js"], function () {
     gulp.setMaxListeners(["compile"]);
   })
-  watch(["./**/*.html", "./js/**.*js"], function () {
+  watch(["./**/*.html", "./js/**/*.js"], function () {
     browserSync.reload();
   })
 })

@@ -13,6 +13,7 @@ class Footer extends React.Component {
     )
   }
 }
+
 class SideArea extends React.Component {
   render() {
     return (
