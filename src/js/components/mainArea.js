@@ -13,10 +13,12 @@ export default class MainArea extends React.Component {
         {
           id: "item-1",
           label: "Todo1",
+          completed: false,
         },
         {
           id: "item-2",
           label: "Todo2",
+          completed: false,
         },
       ],
       todoInputValue: ""
@@ -40,20 +42,40 @@ export default class MainArea extends React.Component {
     });
   }
 
-  onCompleteTodo(data) {
-    console.log("onCompleteTodo", data);
+  onCompleteTodo(id) {
+    let _state = Object.assign({}, this.state);
+    for (let i = 0; i < _state.todos.length; i++) {
+      if (_state.todos[i].id === id) {
+        _state.todos[i].completed = true;
+        break;
+      }
+    }
+    this.setState(_state);
   }
 
+  onDeleteTodo(id) {
+    let _state = Object.assign({}, this.state);
+    for (let i = 0; i < _state.todos.length; i++) {
+      if (_state.todos[i].id === id) {
+        _state.todos.splice(i, 1);
+        break;
+      }
+    }
+    this.setState(_state);
+  }
 
   renderTodoItems() {
     let todoItemDom = [];
     for (let i = 0; i < this.state.todos.length; i++) {
-      let todoItem = <ListItem
-                      key={"item-"+i}
-                      data={this.state.todos[i]}
-                      completeTodo={this.onCompleteTodo}
-                    />;
-      todoItemDom.push(todoItem);
+      if (!this.state.todos[i].completed) {
+        let todoItem = <ListItem
+          key={"item-" + i}
+          data={this.state.todos[i]}
+          completeTodo={this.onCompleteTodo.bind(this)}
+          deleteTodo={this.onDeleteTodo.bind(this)}
+        />;
+        todoItemDom.push(todoItem);
+      }
     }
     return todoItemDom;
   }
