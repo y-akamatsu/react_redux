@@ -18,41 +18,51 @@ export default class App extends React.Component {
       ],
       todoList: {
         "inbox": [
-                    {
-                      id: "item-1",
-                      label: "Todo1",
-                      completed: false
-                    },
-                    {
-                      id: "item-2",
-                      label: "Todo2",
-                      completed: false
-                    }
-                  ],
-         "group-1": [
-                      {
-                        id: "item-3",
-                        label: "Todo3",
-                        completed: false
-                      },
-                      {
-                        id: "item-4",
-                        label: "Todo4",
-                        completed: false
-                      }
-                    ]
+          {
+            id: "item-1",
+            label: "Todo1",
+            completed: false
+          },
+          {
+            id: "item-2",
+            label: "Todo2",
+            completed: false
+          }
+        ],
+        "group-1": [
+          {
+            id: "item-3",
+            label: "Todo3",
+            completed: false
+          },
+          {
+            id: "item-4",
+            label: "Todo4",
+            completed: false
+          },
+          {
+            id: "item-5",
+            label: "Todo5",
+            completed: false
+          }
+        ]
       },
       selectedGroup: "group-1"
     }
   }
 
+  onSelectGroup(id) { //選択したグループの処理
+    this.setState({selectedGroup: id}); //クリックしたグループのidを表示させる
+  }
+
   render() {
     return (
       <div className="wrap">
-        <SideArea 
-        groupList={this.state.groupList}/>
-        <MainArea 
-        todoList={this.state.todoList[this.state.selectedGroup]}/>
+        <SideArea
+          groupList={this.state.groupList}
+          onSelect={this.onSelectGroup.bind(this)}/>
+        <MainArea
+          todoList={this.state.todoList[this.state.selectedGroup]} />
       </div>
     )
   }
