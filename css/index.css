@@ -30,6 +30,7 @@ li {
     overflow: hidden; }
     .side-area .group-list li .group-edit-button {
       border: 1px solid #CCCCCC;
+      background: #FFFFFF;
       border-radius: 5px;
       font-size: 0.9rem;
       float: right;
@@ -47,6 +48,7 @@ li {
     padding: 20px;
     width: 100%; }
     .side-area .side-area-footer .add-group-button {
+      background: #FFFFFF;
       width: calc(100% - 40px);
       height: 30px;
       border: 1px solid #CCCCCC;
