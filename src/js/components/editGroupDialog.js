@@ -9,12 +9,18 @@ export default class EditGroupDialog extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    let _state = Object.assign({}, this.state);
+    _state.groupName = nextProps.group.label;
+    this.setState(_state);
+  } 
+
   onCancel(event) {
     this.props.onCancel();
   }
 
   onSave(event) {
-    this.props.onSave(this.state.groupName);
+    this.props.onSave(this.props.group.id, this.state.groupName);
   }
 
   onDelete(event) {
@@ -37,7 +43,7 @@ export default class EditGroupDialog extends React.Component {
                 type="text"
                 name="groupName"
                 className="group-text-input"
-                value={this.props.group.label}
+                value={this.state.groupName}
                 onChange={this.onChangeGroupName.bind(this)}/>
             </div>
             <div className="dialog-footer">

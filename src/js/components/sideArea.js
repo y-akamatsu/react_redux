@@ -34,8 +34,8 @@ export default class SideArea extends React.Component {
     this.setState({ showAddGroupDialog: false });
   }
 
-  onSaveEditGroupDialog(groupName) {
-    console.log("onSaveEditGroupDialog", groupName);
+  onSaveEditGroupDialog(id, groupName) {
+    this.props.onEditGroup(id, groupName);
     this.setState({ showEditGroupDialog: false });
   }
 
