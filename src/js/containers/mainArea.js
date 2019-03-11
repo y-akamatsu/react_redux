@@ -1,4 +1,4 @@
-import { conect } from "react-redux";
+import { connect } from "react-redux";
 import { todoActions } from "../actions/todoActions";
 import MainArea from "../components/mainArea";
 
@@ -14,13 +14,13 @@ function getGroupName(groupList, selectedGroup) {
 }
 const mapStateToProps = (state) => {
   return {
-    groupName: groupName(state.groupList, state.selectedGroup),
+    groupName: getGroupName(state.groupList, state.selectedGroup),
     todoList: this.state.todoList[this.state.selectedGroup]
   }
 }
 
 
-const mapDispatchProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onAddTodo : (data) => {
       dispatch(todoActions.addTodo(data));
