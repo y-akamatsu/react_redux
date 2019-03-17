@@ -1,5 +1,6 @@
 import { todoActionNames } from "../actions/todoActions";
-import _ from "loadash";
+import { groupActionNames } from "../actions/groupActions";
+import _ from "lodash"; //ディープコピーさせる
 
 const initialState = {
   groupList: [
@@ -10,6 +11,10 @@ const initialState = {
     {
       id: "group-1",
       label: "グループ１"
+    },
+    {
+      id: "group-2",
+      label: "グループ2"
     }
   ],
   todoList: {
@@ -44,11 +49,10 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-  let _state = {};
+  let _state = _.cloneDeep(state);
   let todoList = [];
   switch (action.type) {
     case todoActionNames.ADD_TODO:
-      _state = _.clonedeep(state);
       _state.todoCount++;
       todoList = _state.todoList[_state.selectedGroup];
       let todoItem = {
@@ -59,24 +63,32 @@ const reducer = (state = initialState, action) => {
       todoList.push(todoItem);
       return _state;
     case todoActionNames.COMPLETE_TODO:
-      _state = _.clonedeep(state);
       todoList = _state.todoList[_state.selectedGroup];
-      for (let i = 0; i < todoList.length; i++) {
-        if (todoList[i].id === action.payload.id) {
+      for (var i = 0; i < todoList.length; i++) {
+        if (todoList[i].id == action.payload.id) {
           todoList[i].completed = true;
           break;
         }
       }
       return _state;
     case todoActionNames.DELETE_TODO:
-      _state = _.clonedeep(state);
       todoList = _state.todoList[_state.selectedGroup];
-      for (let i = 0; i < todoList.length; i++) {
-        if (todoList[i].id === action.payload.id) {
+      for (var i = 0; i < todoList.length; i++) {
+        if (todoList[i].id == action.payload.id) {
           todoList.splice(i, 1);
           break;
         }
       }
+      return _state;
+    case groupActionNames.ADD_GROUP:
+      _state.groupCount++;
+      let groupId = "group-" + _state.groupCount;
+      let groupItem = {
+        id: groupId,
+        label: action.payload.data
+      }
+      _state.groupList.push(groupItem);
+      _state.todoList[groupId] = [];
       return _state;
     default:
       return state;

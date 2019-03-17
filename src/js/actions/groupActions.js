@@ -1,11 +1,11 @@
-export const groupActionNAmes = {
+export const groupActionNames = {
  ADD_GROUP: "ADD_GROUP"
 }
 
 export const groupActions = {
  addGroup: (data) => {
    return {
-     type: grouoActionName.ADD_GROUP,
+     type: groupActionNames.ADD_GROUP,
      payload: {
        data: data
      }
