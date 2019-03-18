@@ -1,8 +1,10 @@
+import { combineReducers } from "redux";
 import { todoActionNames } from "../actions/todoActions";
 import { groupActionNames } from "../actions/groupActions";
 import _ from "lodash"; //ディープコピーさせる
 
-const initialState = {
+
+const groupInitState = {
   groupList: [
     {
       id: "inbox",
@@ -11,12 +13,13 @@ const initialState = {
     {
       id: "group-1",
       label: "グループ１"
-    },
-    {
-      id: "group-2",
-      label: "グループ2"
     }
   ],
+  groupCount: 1,
+  selectedGroup: "inbox"
+}
+
+const todoInitState = {
   todoList: {
     "inbox": [
       {
@@ -43,12 +46,10 @@ const initialState = {
       }
     ]
   },
-  todoCount: 4,
-  groupCount: 1,
-  selectedGroup: "group-1"
+  todoCount: 4
 }
 
-const reducer = (state = initialState, action) => {
+function todoReducer(state = todoInitState, action) {
   let _state = _.cloneDeep(state);
   let todoList = [];
   switch (action.type) {
@@ -81,18 +82,57 @@ const reducer = (state = initialState, action) => {
       }
       return _state;
     case groupActionNames.ADD_GROUP:
-      _state.groupCount++;
-      let groupId = "group-" + _state.groupCount;
-      let groupItem = {
-        id: groupId,
-        label: action.payload.data
-      }
-      _state.groupList.push(groupItem);
-      _state.todoList[groupId] = [];
+      _state.todoList[action.payload.groupId] = [];
+      return _state;
+    case groupActionNames.DELETE_GROUP:
+      delete _state.todoList[action.payload.id];
       return _state;
     default:
       return state;
   }
 }
+
+function groupReducer(state = groupInitState, action) {
+  let _state = _.cloneDeep(state);
+  switch (action.type) {
+    case groupActionNames.ADD_GROUP:
+      _state.groupCount++;
+      let groupItem = {
+        id: actipn.payload.groupId,
+        label: action.payload.data
+      }
+      _state.groupList.push(groupItem);
+      return _state;
+    case groupActionNames.SELECT_GROUP:
+      _state.selectedGroup = action.playoad.id;
+      return _state;
+    case groupActionNames.EDIT_GROUP:
+      for (let i = 0; i < _state.groupList.length; i++) {
+        if (_state.groupList[i].id === action.payload.id) {
+          _state.groupList[i].label = action.payload.groupName;
+          break;
+        }
+      }
+      return _state;
+    case groupActionNames.DELETE_GROUP:
+      for (let i = 0; i < _state.groupList.length; i++) {
+        if (_state.groupList[i].id === action.payload.id) {
+          _state.groupList[i].label = action.payload.groupName;
+          break;
+        }
+      }
+      if (_state.selectedGroup === action.payload.id) {
+        _state.selectedGroup = _state.groupList[0].id;
+      }
+      return _state;
+    default:
+      return state;
+  }
+}
+
+const reducer = combineReducers({
+  todoReducer,
+  groupReducer
+})
 
 export default reducer;
