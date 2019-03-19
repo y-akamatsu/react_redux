@@ -34,7 +34,10 @@ export const groupActions = {
  },
  deleteGroup: (id) => {
    return {
-
+     type: groupActionNames.DELETE_GROUP,
+     payload: {
+       id: id
+     }
    }
  }
 }
